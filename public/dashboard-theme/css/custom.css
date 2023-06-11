@@ -1,0 +1,16 @@
+.img-table-sm{
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.input-group-text{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+/* input[type="checkbox"] {
+    height: auto !important;
+    padding: 0;
+} */
