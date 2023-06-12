@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $appends = 'logo_path';
+    protected $appends = ['logo_path'];
 
     public function products()
     {

@@ -21,5 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('home-stuff', 'index');
+    Route::get('get-categories', 'getCategories');
+    Route::get('get-products/{category}', 'getProducts');
 });
+
 
