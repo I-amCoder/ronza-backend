@@ -3,9 +3,9 @@
 /public/hot
 /public/storage
 /public/categories
+/public/sites
 /storage/*.key
 /storage/app/public
-/vendor
 .env
 .env.backup
 .env.production
