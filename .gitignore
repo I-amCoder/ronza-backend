@@ -2,6 +2,7 @@
 /public/build
 /public/hot
 /public/storage
+/public/categories
 /storage/*.key
 /storage/app/public
 /vendor
