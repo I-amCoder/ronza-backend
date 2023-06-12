@@ -26,11 +26,11 @@ class HomeController extends Controller
     public function getProducts($category)
     {
         if($category=='All'){
-            return ProductsResource::collection(Product::all());
+            return ProductsResource::collection(Product::paginate(4));
         }
         $category = Category::find($category);
         if ($category) {
-            $products = Product::where('category_id', $category->id)->get();
+            $products = Product::where('category_id', $category->id)->paginate(4);
             return ProductsResource::collection($products);
         } else {
             return response()->json("Cat no found", 404);

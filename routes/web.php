@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Routing\RouteGroup;
@@ -34,5 +35,11 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::controller(ProductsController::class)->group(function () {
         Route::resource('products', ProductsController::class);
+    });
+
+    Route::controller(FrontendController::class)->prefix('frontend')->name('frontend.')->group(function(){
+        Route::get('/carousel','carousel')->name('carousel');
+        Route::post('/carousel','saveCarousel')->name('carousel.store');
+        Route::delete('/carousel/{id}','deleteCarousel')->name('carousel.delete');
     });
 });

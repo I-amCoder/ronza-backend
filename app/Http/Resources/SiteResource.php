@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Carousel;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SiteResource extends JsonResource
@@ -15,6 +16,7 @@ class SiteResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
+        $data['carousels'] = CarouselResource::collection(Carousel::all());
         unset($data['created_at']);
         unset($data['updated_at']);
         return $data;
