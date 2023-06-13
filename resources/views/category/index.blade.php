@@ -32,10 +32,10 @@
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->title }}</td>
                                     <td>
-                                        <button data-name="{{ $category->name }}" data-title="{{ $category->title }}"
-                                            data-logo="{{ $category->logo_path }}" data-id="{{ encrypt($category->id) }}"
-                                            class="btn btn-sm btn-warning editCategory"><i class="fa fa-edit"></i>
-                                        </button>
+                                            <button data-name="{{ $category->name }}" data-title="{{ $category->title }}"
+                                                data-logo="{{ $category->logo_path }}" data-id="{{ encrypt($category->id) }}"
+                                                class="btn btn-sm btn-warning editCategory"><i class="fa fa-edit"></i>
+                                            </button>
                                     </td>
                                 </tr>
                             @empty

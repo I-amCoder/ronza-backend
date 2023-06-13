@@ -6,6 +6,7 @@
 /public/sites
 /storage/*.key
 /storage/app/public
+/vendor
 .env
 .env.backup
 .env.production
