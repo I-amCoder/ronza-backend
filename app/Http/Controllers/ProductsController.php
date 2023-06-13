@@ -125,6 +125,7 @@ class ProductsController extends Controller
                 $image->storeAs('public/products/images', $name);
                 $pImage->product_id = $item->id;
                 $pImage->name = $name;
+                $pImage->save();
             }
         }
     }

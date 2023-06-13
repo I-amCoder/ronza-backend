@@ -16,6 +16,11 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    public function images()
+    {
+        return $this->hasMany(ProductImages::class,'product_id');
+    }
+
     function getGetStatusAttribute()
     {
         $status = $this->status == 1 ? "Active" : "InActive";
