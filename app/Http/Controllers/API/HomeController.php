@@ -25,7 +25,7 @@ class HomeController extends Controller
 
     public function getProducts($category)
     {
-        if($category=='All'){
+        if ($category == 'All') {
             return ProductsResource::collection(Product::paginate(4));
         }
         $category = Category::find($category);
@@ -35,5 +35,18 @@ class HomeController extends Controller
         } else {
             return response()->json("Cat no found", 404);
         }
+    }
+
+    public function searchProducts(Request $request)
+    {
+        $query = $request->q;
+        if ($query && $query != '') {
+            $products = Product::where('title', 'like', "%{$query}%")
+                ->orWhere('small_description', 'like', "%{$query}%")
+                ->paginate(4);
+        } else {
+            $products = Product::paginate(4);
+        }
+        return ProductsResource::collection($products);
     }
 }
