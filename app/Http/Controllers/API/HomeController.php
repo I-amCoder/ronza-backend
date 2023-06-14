@@ -49,4 +49,15 @@ class HomeController extends Controller
         }
         return ProductsResource::collection($products);
     }
+
+    public function showProduct($id)
+    {
+        $product = Product::find($id);
+        if ($product) {
+            $category = $product->category;
+            $data = new ProductsResource($product);
+            $data['category'] = new CategoryResource($category);
+            return $data;
+        }
+    }
 }
