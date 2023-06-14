@@ -3,6 +3,8 @@
         <h5>Description</h5>
     </div>
     <div class="col-12">
-        <textarea id="summernote" name="editordata"></textarea>
+        <textarea id="summernote" name="editordata">
+            {!! $description??old('editordata') !!}
+        </textarea>
     </div>
 </div>

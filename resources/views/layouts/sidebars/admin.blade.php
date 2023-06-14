@@ -54,12 +54,12 @@
         <a class="nav-link" href="{{ route('site.settings') }}">
             <i class="fas fa-home"></i>
             <span>Site Settings</span></a>
-    </li>
+    </li> --}}
     <li class="nav-item @yield('settings')">
         <a class="nav-link" href="{{ route('site.settings') }}">
             <i class="fas fa-home"></i>
             <span>Site Settings</span></a>
-    </li> --}}
+    </li>
     <!-- Nav Item - Pages Collapse Menu -->
 
     <!-- Nav Item - Utilities Collapse Menu -->

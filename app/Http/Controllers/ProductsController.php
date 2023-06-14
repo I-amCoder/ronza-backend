@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImages;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductsController extends Controller
@@ -71,7 +73,9 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
+        return view('products.edit',compact('product','categories'));
     }
 
     /**
@@ -83,7 +87,7 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        echo "Update Product is Under Development :)";
     }
 
     /**
@@ -94,7 +98,21 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        // Delete Images and data
+        foreach($product->images as $image){
+            $file = 'public/products/images/'.$image->name;
+            if(Storage::exists($file)){
+                Storage::delete($file);
+            }
+            $image->delete();
+        }
+        $file = 'public/products/images/'.$product->image;
+        if(Storage::exists($file)){
+            Storage::delete($file);
+        }
+        $product->delete();
+        return back()->withSuccess('Product Deleted Successfully');
     }
 
     function submit($request, $item): void

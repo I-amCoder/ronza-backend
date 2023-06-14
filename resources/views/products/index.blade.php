@@ -35,7 +35,15 @@
                                             <td>{{ $product->price }}</td>
                                             <td>{{ $product->discounted_price }}</td>
                                             <td>{!! $product->getStatus !!}</td>
-                                            <td><button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                            <td>
+                                                <form action="{{ route('products.destroy',$product->id) }}" method="post">
+                                                @method('delete')
+                                                @csrf
+                                                    <a href="{{ route('products.edit',$product->id) }}" class="btn btn-sm btn-warning">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @empty
