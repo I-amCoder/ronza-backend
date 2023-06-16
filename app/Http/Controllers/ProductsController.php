@@ -189,8 +189,8 @@ class ProductsController extends Controller
             foreach ($request->pimage as $image) {
                 $pImage = new ProductImages();
                 $uuid = Str::uuid()->toString();
-                $name = Str::slug($request->title, '-') . '_' . $uuid . '_' . '.' . $image->extension();
-                $image->storeAs('public/products/images', $name);
+                $name = Str::slug($request->title, '-') . '_' . $uuid . '_' . '.' . $image['file']->extension();
+                $image['file']->storeAs('public/products/images', $name);
                 $pImage->product_id = $item->id;
                 $pImage->name = $name;
                 $pImage->save();

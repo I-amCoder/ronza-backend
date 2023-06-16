@@ -100,7 +100,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $path = 'public/categories/logos/' . $category->logo;
-        if (Storage::exists($path)) {
+        if (Storage::exists($path) && $category->logo != 'default.png') {
             Storage::delete($path);
         }
         // Delete All Products with Images
