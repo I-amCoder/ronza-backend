@@ -25,10 +25,10 @@
         });
         $("#addImage").click(function(e) {
             e.preventDefault();
-            let count = parseInt($(this).data('count'))+1;
+            let count = parseInt($(this).data('count')) + 1;
             $($(this)).data('count', count);
             $("#images-container").append(`<div class="col-md-6 col-xl-4 mb-4">
-    <label class="form-control-label" for="pimage${count}">Product Image ${count}</label>
+    <label class="form-control-label" for="pimage${count}">Additional Image</label>
     <div class="text-center">
         <div class="fileinput fileinput-new" data-provides="fileinput">
             <div class="fileinput-preview img-thumbnail" data-trigger="fileinput" style="width: 200px;">
@@ -37,7 +37,7 @@
                 <span class="btn btn-outline-secondary btn-file">
                     <span class="fileinput-new">{{ __('Select image') }}</span>
                     <span class="fileinput-exists">{{ __('Change') }}</span>
-                    <input id="pimage${count}" type="file" name="pimage[]" accept="image/x-png,image/gif,image/jpeg">
+                    <input id="pimage${count}" type="file" name="pimage[${count}][file]" accept="image/x-png,image/gif,image/jpeg">
                 </span>
                 <a href="#" class="btn btn-outline-secondary fileinput-exists"
                     data-dismiss="fileinput">{{ __('Remove') }}</a>

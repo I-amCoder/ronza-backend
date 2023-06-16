@@ -38,7 +38,10 @@
                                 'description' => $product->description,
                             ])
                             <hr>
-                            @include('products.partials.images')
+                            @include('products.partials.images',[
+                                'mainImage'=>$product->image_path,
+                                'p_images'=>$product->images
+                            ])
                             <div class="row mt-4">
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-success">Save </button>
