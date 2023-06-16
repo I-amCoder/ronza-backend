@@ -17,7 +17,7 @@ class Category extends Model
 
     public function getLogoPathAttribute()
     {
-        return url('categories/logos/' . $this->logo);
+        return url('storage/categories/logos/' . $this->logo);
     }
 
 }

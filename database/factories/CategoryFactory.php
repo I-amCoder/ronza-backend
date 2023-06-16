@@ -18,7 +18,7 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'title' => fake()->paragraph(),
+            'title' => fake()->title(),
             'logo' => "default.png"
         ];
     }

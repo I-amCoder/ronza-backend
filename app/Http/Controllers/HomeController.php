@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\Site;
 use Illuminate\Http\Request;
 
@@ -25,6 +27,8 @@ class HomeController extends Controller
     public function index()
     {
         $site = Site::find(1);
-        return view('home', compact('site'));
+        $products = Product::count();
+        $categories = Category::count();
+        return view('home', compact('site','products','categories'));
     }
 }

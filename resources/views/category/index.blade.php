@@ -32,10 +32,16 @@
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->title }}</td>
                                     <td>
-                                            <button data-name="{{ $category->name }}" data-title="{{ $category->title }}"
-                                                data-logo="{{ $category->logo_path }}" data-id="{{ encrypt($category->id) }}"
-                                                class="btn btn-sm btn-warning editCategory"><i class="fa fa-edit"></i>
-                                            </button>
+                                        <form class="row"  action="{{ route('category.destroy',$category->id) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+
+                                                <a  href="javascript::void(0)"  data-name="{{ $category->name }}" data-title="{{ $category->title }}"
+                                                    data-logo="{{ $category->logo_path }}" data-id="{{ encrypt($category->id) }}"
+                                                    class="mx-2 btn btn-sm btn-warning editCategory"><i class="fa fa-edit"></i>
+                                                </a>
+                                                <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                        </form>
                                     </td>
                                 </tr>
                             @empty
@@ -57,7 +63,6 @@
             $("#editCatTitle").val($(this).data('title'));
             $("#editImage").attr('src', $(this).data('logo'));
             let id = $(this).data('id');
-            console.log($("#" + id).value);
             $("#edit-category-from").attr('action', "{{ url('category') }}/" + id);
             $("#editCategoryModal").modal('show');
         });

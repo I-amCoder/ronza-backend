@@ -103,32 +103,33 @@ class ProductsController extends Controller
         $product->discounted_price = $request->discount_price;
         $product->status = $request->status == "on" ? 1 : 0;
 
+
         if ($request->hasFile('image')) {
             $name = $product->image;
             // Delete Old File
-            if(Storage::exists('public/products/images/'.$name)){
-                Storage::delete('public/products/images/'.$name);
+            if (Storage::exists('public/products/images/' . $name)) {
+                Storage::delete('public/products/images/' . $name);
             }
             $request->image->storeAs('public/products/images', $name);
         }
-
-        foreach ($request->pimage as $img) {
-            if (isset($img['id'])) {
-                $pImage = ProductImages::where(['product_id' => $product->id, 'id' => $img['id']])->firstOrFail();
-            } else {
-                $pImage = new ProductImages();
-            }
-            if (isset($img['file'])) {
-                // Save the Image
-                $uuid = Str::uuid()->toString();
-                $name = Str::slug($request->title, '-') . '_' . $uuid . '_' . '.' . $img['file']->extension();
-                $img['file']->storeAs('public/products/images', $name);
-                $pImage->product_id = $product->id;
-                $pImage->name = $name;
-                $pImage->save();
+        if (isset($request->pimage)) {
+            foreach ($request->pimage as $img) {
+                if (isset($img['id'])) {
+                    $pImage = ProductImages::where(['product_id' => $product->id, 'id' => $img['id']])->firstOrFail();
+                } else {
+                    $pImage = new ProductImages();
+                }
+                if (isset($img['file'])) {
+                    // Save the Image
+                    $uuid = Str::uuid()->toString();
+                    $name = Str::slug($request->title, '-') . '_' . $uuid . '_' . '.' . $img['file']->extension();
+                    $img['file']->storeAs('public/products/images', $name);
+                    $pImage->product_id = $product->id;
+                    $pImage->name = $name;
+                    $pImage->save();
+                }
             }
         }
-
         $product->update();
 
         return to_route('products.index')->withSuccess("Product Updated Successfully");
@@ -143,6 +144,12 @@ class ProductsController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        $this->deleteWithImages($product);
+        return back()->withSuccess('Product Deleted Successfully');
+    }
+
+    public function deleteWithImages($product)
+    {
         // Delete Images and data
         foreach ($product->images as $image) {
             $file = 'public/products/images/' . $image->name;
@@ -156,7 +163,6 @@ class ProductsController extends Controller
             Storage::delete($file);
         }
         $product->delete();
-        return back()->withSuccess('Product Deleted Successfully');
     }
 
     function submit($request, $item): void
