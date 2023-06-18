@@ -116,6 +116,7 @@ class CategoryController extends Controller
     function submit($request, $category)
     {
         $category->name = $request->name;
+        $category->slug = $this->generateUniqueSlug($request->name, Category::class);
         $category->title = $request->title;
 
 

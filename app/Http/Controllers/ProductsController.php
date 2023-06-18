@@ -21,6 +21,18 @@ class ProductsController extends Controller
      */
     public function index()
     {
+        $products = Product::all();
+        foreach($products as $p){
+            $slug = $this->generateUniqueSlug($p->title, Product::class);
+            $p->slug = $slug;
+            $p->save();
+        }
+        $products = Category::all();
+        foreach($products as $p){
+            $slug = $this->generateUniqueSlug($p->name, Category::class);
+            $p->slug = $slug;
+            $p->save();
+        }
         $products = Product::paginate(15);
         return view('products.index', compact('products'));
     }
@@ -98,6 +110,7 @@ class ProductsController extends Controller
         // dd($request->all());
         $product = Product::findOrFail($id);
         $product->title = $request->title;
+        $product->slug = $this->generateUniqueSlug($request->title,Product::class);
         $product->category_id = decrypt($request->category);
         $product->small_description = $request->s_description;
         $product->description = $request->editordata;
@@ -176,6 +189,7 @@ class ProductsController extends Controller
     function submit($request, $item): void
     {
         $item->title = $request->title;
+        $item->slug = $this->generateUniqueSlug($request->title,Product::class);
         $item->category_id = decrypt($request->category);
         $item->small_description = $request->s_description;
         $item->description = $request->editordata;

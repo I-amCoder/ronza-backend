@@ -50,9 +50,9 @@ class HomeController extends Controller
         return ProductsResource::collection($products);
     }
 
-    public function showProduct($id)
+    public function showProduct($slug)
     {
-        $product = Product::find($id);
+        $product = Product::where('slug',$slug)->first();
         if ($product) {
             $category = $product->category;
             $data = new ProductsResource($product);
