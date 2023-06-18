@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImages;
+use App\Services\RemoveBgService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+
 
 class ProductsController extends Controller
 {
@@ -111,6 +112,8 @@ class ProductsController extends Controller
                 Storage::delete('public/products/images/' . $name);
             }
             $request->image->storeAs('public/products/images', $name);
+            $bgService = new RemoveBgService();
+            $bgService->removeProductBackground($product->imagePath, $name);
         }
         if (isset($request->pimage)) {
             foreach ($request->pimage as $img) {
@@ -178,11 +181,18 @@ class ProductsController extends Controller
 
 
         if ($request->hasFile('image')) {
+            // Save Actual Image
             $uuid = Str::uuid()->toString();
             $name = Str::slug($request->title, '-') . '_' . $uuid . '_' . '.' . $request->image->extension();
             $item->image = $name;
             $request->image->storeAs('public/products/images', $name);
+
+            $bgService = new RemoveBgService();
+            $bgService->removeProductBackground($item->imagePath, $name);
         }
+
+
+
         $item->save();
 
         if (!is_null($request->pimage)) {

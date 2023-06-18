@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\RemoveBgService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +10,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $appends = ['getStatus', 'imagePath'];
+    protected $appends = ['getStatus', 'imagePath','nonBgImg'];
 
     public function category()
     {
@@ -33,5 +34,10 @@ class Product extends Model
     {
         $path = url('storage/products/images/' . $this->image);
         return $path;
+    }
+
+    public function getNonBgImgAttribute()
+    {
+        return url('storage/products/images/no_bg_'.$this->image);
     }
 }

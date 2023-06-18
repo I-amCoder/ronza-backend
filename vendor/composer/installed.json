@@ -2471,6 +2471,74 @@
             "install-path": "../monolog/monolog"
         },
         {
+            "name": "mtownsend/remove-bg",
+            "version": "2.0.1",
+            "version_normalized": "2.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mtownsend5512/remove-bg.git",
+                "reference": "ed3adad276d9262e3869dcdfee716919791a9e25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mtownsend5512/remove-bg/zipball/ed3adad276d9262e3869dcdfee716919791a9e25",
+                "reference": "ed3adad276d9262e3869dcdfee716919791a9e25",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7",
+                "php": "~7.0|~8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.4"
+            },
+            "time": "2023-06-08T14:34:34+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mtownsend\\RemoveBg\\Providers\\RemoveBgServiceProvider"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Mtownsend\\RemoveBg\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Townsend",
+                    "email": "mtownsend5512@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP package to interface with the remove.bg api.",
+            "keywords": [
+                "api",
+                "background",
+                "bg",
+                "image",
+                "photo",
+                "php",
+                "remove",
+                "transparent"
+            ],
+            "support": {
+                "issues": "https://github.com/mtownsend5512/remove-bg/issues",
+                "source": "https://github.com/mtownsend5512/remove-bg/tree/2.0.1"
+            },
+            "install-path": "../mtownsend/remove-bg"
+        },
+        {
             "name": "myclabs/deep-copy",
             "version": "1.11.0",
             "version_normalized": "1.11.0.0",
