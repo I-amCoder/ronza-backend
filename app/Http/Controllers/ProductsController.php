@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carousel;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImages;
@@ -111,9 +112,12 @@ class ProductsController extends Controller
             if (Storage::exists('public/products/images/' . $name)) {
                 Storage::delete('public/products/images/' . $name);
             }
+            if (Storage::exists('public/products/images/no_bg_' . $name)) {
+                Storage::delete('public/products/images/no_bg_' . $name);
+            }
             $request->image->storeAs('public/products/images', $name);
             $bgService = new RemoveBgService();
-            $bgService->removeProductBackground($product->imagePath, $name);
+            // $bgService->removeProductBackground($product->imagePath, $name);
         }
         if (isset($request->pimage)) {
             foreach ($request->pimage as $img) {
@@ -165,6 +169,7 @@ class ProductsController extends Controller
         if (Storage::exists($file)) {
             Storage::delete($file);
         }
+        Carousel::where('product_id',$product->id)->delete();
         $product->delete();
     }
 
