@@ -25,6 +25,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('get-products/{category}', 'getProducts');
     Route::get('search-products/search', 'searchProducts');
     Route::get('product/{product}', 'showProduct');
+    Route::get('category/{category}', 'getCategory');
 });
 
 

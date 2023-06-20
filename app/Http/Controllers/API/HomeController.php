@@ -52,12 +52,25 @@ class HomeController extends Controller
 
     public function showProduct($slug)
     {
-        $product = Product::where('slug',$slug)->first();
+        $product = Product::where('slug', $slug)->first();
         if ($product) {
             $category = $product->category;
             $data = new ProductsResource($product);
             $data['category'] = new CategoryResource($category);
             return $data;
         }
+    }
+
+    public function getCategory($slug)
+    {
+        $category = Category::where('slug', $slug)->first();
+        if ($category) {
+            $category = new CategoryResource($category);
+            // $products = Product::where('category_id', $category->id)->paginate(1);
+            // $category['products'] = ProductsResource::collection($products);
+
+            return $category;
+        }
+        return response()->json(['data' => []], 404);
     }
 }
