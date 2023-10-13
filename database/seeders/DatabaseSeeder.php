@@ -22,6 +22,6 @@ class DatabaseSeeder extends Seeder
         // ]);
         // $this->call(UsersTableSeeder::class);
         // $this->call(SiteSettingsSeeder::class);
-        \App\Models\Category::factory(10)->create();
+        // \App\Models\Category::factory(10)->create();
     }
 }

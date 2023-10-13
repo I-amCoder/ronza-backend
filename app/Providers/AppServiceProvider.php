@@ -24,7 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $settings = Site::find(1);
-        config(['settings' => $settings]);
+        try {
+            $settings = Site::find(1);
+            config(['settings' => $settings]);
+        } catch (\Throwable $th) {
+            return;
+        }
     }
 }

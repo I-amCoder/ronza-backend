@@ -5,6 +5,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Routing\RouteGroup;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +19,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return to_route('home');
+
+// Frontend site routes
+Route::controller(FrontendController::class)->group(function(){
+    Route::get('/','index')->name('front.index');
 });
+
 
 Auth::routes(['register' => false]);
 

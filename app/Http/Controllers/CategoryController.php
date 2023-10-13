@@ -124,7 +124,6 @@ class CategoryController extends Controller
             $uuid = Str::uuid()->toString();
             $name = $uuid . '_' . Str::slug($request->name, '-') . '.' . $request->logo->extension();
             $category->logo = $name;
-
             $request->logo->storeAs('public/categories/logos',  $name);
         }
         $category->save();
