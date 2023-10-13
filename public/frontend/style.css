@@ -1159,7 +1159,7 @@ textarea:focus {
 .cart-quantity .add-to-cart {
 	border: none;
 	font-size: 14px;
-	color: #242424;
+	color: #FFF8C9;
 	position: relative;
 	background: #600167;
 	cursor: pointer;
@@ -1493,7 +1493,9 @@ textarea:focus {
 		padding: 0 60px 0 33px;
 }
 .header-logo-img{
-    width: 100px;
+    width: 70px;
+    border-radius: 2px;
+    box-shadow: 4px 4px 5px #a5a5a5;
 }
 /*Header Middle Right*/
 .header-middle-right {
