@@ -5,11 +5,11 @@
 <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Home Version One || limupa - Digital Products Store eCommerce Bootstrap 4 Template</title>
+        <title>{{ config('settings.site_name') }} </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ config('settings.logo_path') }}">
         <!-- Material Design Iconic Font-V2.2.0 -->
         <link rel="stylesheet" href="{{ asset('frontend') }}/css/material-design-iconic-font.min.css">
         <!-- Font Awesome -->
