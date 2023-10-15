@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carousel;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
     public function index(){
-        return view('frontend.index');
+        $data['categories'] = Category::all();
+        $data['featured_products'] = Product::where('is_featured',true)->get();
+        $data['special_products'] = Product::where('is_special',true)->get();
+        return view('frontend.index',compact('data'));
     }
 
     public function carousel()

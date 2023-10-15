@@ -1,4 +1,24 @@
 <script>
+    let field1 = (type, counter) => {
+        var label = (type=="size"?"Size Number/Code": "Color Name");
+        var name = (type=="size"?"number": "color");
+        return `
+        <div class="col-auto mb-2">
+            <label class="form-label">${label}</label>
+                <input name="${type}[${counter}][${name}]" required placeholder="${type=="size"?"Size":"Color"}" type="text" class="form-control">
+            </div>`;
+    }
+
+    let field2 = (type, counter) => `<div class="col-auto mb-2">
+        <label class="form-label">Quantity available</label>
+                        <input type="number" step="any"  required name="${type}[${counter}][qty]" placeholder="Quantites Available" class="form-control">
+                    </div>`;
+    let field3 = (type, counter) => ` <div class="col-auto mb-2" >
+        <label class="form-label">Extra on this size</label>
+                <input type="number" required name="${type}[${counter}][price]" placeholder="Extra price on this ${type}" class="form-control">
+            </div>`;
+
+
     $(document).ready(function() {
         $('#summernote').summernote({
             height: 200, //set editable area's height
@@ -14,15 +34,95 @@
         });
         $('#customSwitch1').change(function() {
             if ($(this).is(':checked')) {
-                $("#status_title").text('Active')
-                $("#status_title").removeClass('badge-danger')
-                $("#status_title").addClass('badge-success')
+                $("#show_in_frontend_title").text('Yes')
+                $("#show_in_frontend_title").removeClass('badge-danger')
+                $("#show_in_frontend_title").addClass('badge-success')
             } else {
-                $("#status_title").text('Inactive')
-                $("#status_title").removeClass('badge-success')
-                $("#status_title").addClass('badge-danger')
+                $("#show_in_frontend_title").text('No')
+                $("#show_in_frontend_title").removeClass('badge-success')
+                $("#show_in_frontend_title").addClass('badge-danger')
             }
         });
+
+        $('#customSwitch2').change(function() {
+            if ($(this).is(':checked')) {
+                $("#is_featured_title").text('Yes')
+                $("#is_featured_title").removeClass('badge-danger')
+                $("#is_featured_title").addClass('badge-success')
+            } else {
+                $("#is_featured_title").text('No')
+                $("#is_featured_title").removeClass('badge-success')
+                $("#is_featured_title").addClass('badge-danger')
+            }
+        });
+        $('#customSwitch3').change(function() {
+            if ($(this).is(':checked')) {
+                $("#is_special_title").text('Yes')
+                $("#is_special_title").removeClass('badge-danger')
+                $("#is_special_title").addClass('badge-success')
+            } else {
+                $("#is_special_title").text('No')
+                $("#is_special_title").removeClass('badge-success')
+                $("#is_special_title").addClass('badge-danger')
+            }
+        });
+
+        $(".addSizeBtn").click(function(e) {
+            e.preventDefault();
+            let counter = $(this).data('current-sizes');
+            let container = $("#sizeContainer");
+            appendForm('size', container, counter);
+            $(this).data('current-sizes', parseInt(counter) + 1);
+        });
+
+        $(".addColorBtn").click(function(e) {
+            e.preventDefault();
+            let counter = $(this).data('current-colors');
+            let container = $("#colorContainer");
+            appendForm('color', container, counter);
+            $(this).data('current-colors', parseInt(counter) + 1);
+        });
+
+        $(document).on('click', '.deleteRowButton', function() {
+            let rowId = $(this).data('row-id');
+            $("#" + rowId).remove();
+        });
+
+
+
+
+        function appendForm(type, container, counter) {
+            $(container).append(
+                `<div class="row mb-3" id="${type}-box${counter}">` + field1(type, counter) + (type ==
+                    "size" ? field2(type, counter) +
+                    field3(type, counter, ) : "") +
+                `
+                <div class="col-auto">
+                <button type="button" data-row-id="${type}-box${counter}" class="deleteRowButton  btn btn-danger float-right"><i class="fa fa-trash"></i></button>
+            </div>
+                </div>`);
+        }
+
+        @if (isset($images))
+            let preloaded = @json($images);
+        @else
+            let preloaded = [];
+        @endif
+
+        $('.input-images').imageUploader({
+            preloaded: preloaded,
+            imagesInputName: 'photos',
+            preloadedInputName: 'old_photos',
+            maxFiles: 6
+        });
+
+        $(document).on('input', 'input[name="images[]"]', function() {
+            var fileUpload = $("input[type='file']");
+            if (parseInt(fileUpload.get(0).files.length) > 6) {
+                $('#errorModal').modal('show');
+            }
+        });
+
         $("#addImage").click(function(e) {
             e.preventDefault();
             let count = parseInt($(this).data('count')) + 1;

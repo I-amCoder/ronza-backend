@@ -25,6 +25,8 @@ class SiteSettingsSeeder extends Seeder
             'title' => 'name',
             'store_link' => 'name',
             'description' => 'name',
+            'currency' => 'name',
+            'currency_symbol' => 'name',
         ]);
     }
 }

@@ -10,7 +10,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $appends = ['getStatus', 'imagePath','nonBgImg'];
+    protected $appends = ['getStatus', 'imagePath', 'nonBgImg'];
 
     public function category()
     {
@@ -19,7 +19,17 @@ class Product extends Model
 
     public function images()
     {
-        return $this->hasMany(ProductImages::class,'product_id');
+        return $this->hasMany(ProductImages::class, 'product_id');
+    }
+
+    public function sizes()
+    {
+        return $this->hasMany(ProductSize::class, 'product_id');
+    }
+
+    public function colors()
+    {
+        return $this->hasMany(ProductColor::class, 'product_id');
     }
 
     function getGetStatusAttribute()
@@ -38,6 +48,6 @@ class Product extends Model
 
     public function getNonBgImgAttribute()
     {
-        return url('storage/products/images/no_bg_'.$this->image);
+        return url('storage/products/images/no_bg_' . $this->image);
     }
 }

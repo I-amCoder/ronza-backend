@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('image');
             $table->string('address');
             $table->string('title');
+            $table->string('currency_symbol')->default('$');
+            $table->string('currency')->default('USD');
             $table->string('store_link');
             $table->string('description');
             $table->string('facebook')->nullable();

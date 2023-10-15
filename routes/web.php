@@ -39,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::controller(ProductsController::class)->group(function () {
         Route::resource('products', ProductsController::class);
+        Route::post('products/update-stock', [ProductsController::class,'updateStock'])->name('product.stock.update');
     });
 
     Route::controller(FrontendController::class)->prefix('frontend')->name('frontend.')->group(function(){

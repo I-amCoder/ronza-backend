@@ -18,9 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->string('name');
             $table->string('value');
-            $table->string('price')->nullable();
+            $table->float('extra_price',6,2)->default(0);
             $table->timestamps();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

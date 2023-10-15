@@ -2,9 +2,7 @@
 <div class="row">
     <div class="col-md-6 col-lg-4 text-center">
         <label class="form-control-label" for="input-name">Logo</label>
-        {{-- @isset($image['help'])
-            <br /> <span class="small">200x200</span>
-        @endisset --}}
+
         <div class="text-center">
             <div class="fileinput fileinput-new" data-provides="fileinput">
                 <div class="fileinput-preview img-thumbnail" data-trigger="fileinput" style="width: 200px;">
@@ -34,9 +32,7 @@
     </div>
     <div class="col-md-6 col-lg-4 text-center">
         <label class="form-control-label" for="input-name">Main Image</label>
-        {{-- @isset($image['help'])
-            <br /> <span class="small">200x200</span>
-        @endisset --}}
+
         <div class="text-center">
             <div class="fileinput fileinput-new" data-provides="fileinput">
                 <div class="fileinput-preview img-thumbnail" data-trigger="fileinput" style="width: 200px;">

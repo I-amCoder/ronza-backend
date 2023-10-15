@@ -17,20 +17,30 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->string('title');
+            $table->string('model')->nullable();
+            $table->string('slug');
+            $table->string('sku')->nullable();
             $table->string('image');
-            $table->text('small_description');
-            $table->string('description');
-            $table->float('price');
-            $table->float('discounted_price')->nullable();
-            $table->tinyInteger('status');
+            $table->longText('description')->nullable();
+            $table->double('base_price', 8, 2)->default(0);
+            $table->float('discount')->nullable();
+            $table->string('discount_type')->default('percentage');
+            $table->unsignedTinyInteger('show_in_frontend')->default(1);
+            $table->unsignedInteger('qty')->default(0);
+            $table->boolean('is_featured')->default(0);
+            $table->boolean('is_special')->default(0);
+
+            $table->string('meta_title', 191)->nullable();
+            $table->string('meta_description', 191)->nullable();
+            $table->text('meta_keywords')->nullable();
             $table->timestamps();
 
-            $table->foreign('category_id')->references('id')->on('categories');
+
         });
     }
-
     /**
-     * Reverse the migrations.
+
+    * Reverse the migrations.
      *
      * @return void
      */

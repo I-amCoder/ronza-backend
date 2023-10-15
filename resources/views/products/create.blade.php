@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('css')
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('dashboard-theme/css/image-uploader.min.css') }}">
 @endsection
 @section('content')
     <div class="container-fluid">
@@ -25,9 +26,13 @@
                             @csrf
                             @include('products.partials.common')
                             <hr>
+                            @include('products.partials.misc')
+                            <hr>
                             @include('products.partials.description')
                             <hr>
                             @include('products.partials.images')
+                            <hr>
+                            @include('products.partials.meta')
                             <div class="row mt-4">
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-success">Save </button>
@@ -44,7 +49,8 @@
 @endsection
 @push('js')
     <!-- include summernote css/js -->
-
+    <script src="{{ asset('dashboard-theme/js/image-uploader.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
     @include('site.partials.js')
 @endpush

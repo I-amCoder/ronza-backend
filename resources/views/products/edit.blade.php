@@ -1,7 +1,9 @@
 @extends('layouts.app')
 @section('css')
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('dashboard-theme/css/image-uploader.min.css') }}">
 @endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -27,12 +29,21 @@
                             @method('put')
                             @include('products.partials.common', [
                                 'title' => $product->title,
-                                's_description' => $product->small_description,
-                                'price' => $product->price,
+                                'model' => $product->model,
+                                'base_price' => $product->base_price,
+                                'discount' => $product->discount,
+                                'discount_type' => $product->discount_type,
+                                'show_in_frontend' => $product->show_in_frontend,
+                                'is_featured' => $product->is_featured,
+                                'is_special' => $product->is_special,
+                                'sku' => $product->sku,
                                 'd_price' => $product->discounted_price,
                                 'status' => $product->status,
                                 'p_category' => $product->category_id,
+                                'quantity'=>$product->qty,
                             ])
+                            <hr>
+                            @include('products.partials.misc',['product'=>$product])
                             <hr>
                             @include('products.partials.description', [
                                 'description' => $product->description,
@@ -60,5 +71,6 @@
     <!-- include summernote css/js -->
 
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-    @include('site.partials.js')
+    <script src="{{ asset('dashboard-theme/js/image-uploader.min.js') }}"></script>
+    @include('site.partials.js',['images'=>$images])
 @endpush

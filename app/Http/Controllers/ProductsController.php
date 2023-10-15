@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Carousel;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductColor;
 use App\Models\ProductImages;
+use App\Models\ProductSize;
 use App\Services\RemoveBgService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 
 
 class ProductsController extends Controller
@@ -21,6 +26,9 @@ class ProductsController extends Controller
      */
     public function index()
     {
+        $data = Excel::toArray([],public_path('/data.xlsx'));
+        dd($data);
+
         $products = Product::paginate(15);
         return view('products.index', compact('products'));
     }
@@ -44,10 +52,12 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+
+
         $request->validate([
             'title' => 'required|string',
-            's_description' => 'required|string',
-            "price" => 'required',
+            "base_price" => 'required',
             "editordata" => 'required',
             "image" => 'required',
         ]);
@@ -77,7 +87,13 @@ class ProductsController extends Controller
     {
         $product = Product::findOrFail($id);
         $categories = Category::all();
-        return view('products.edit', compact('product', 'categories'));
+        $images = [];
+        foreach ($product->images as $key => $image) {
+            $img['id'] = $image->id;
+            $img['src'] = $image->path;
+            $images[] = $img;
+        }
+        return view('products.edit', compact('product', 'categories', 'images'));
     }
 
     /**
@@ -89,56 +105,8 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'title' => 'required|string',
-            's_description' => 'required|string',
-            "price" => 'required',
-            "editordata" => 'required',
-        ]);
-        // dd($request->all());
         $product = Product::findOrFail($id);
-        $product->title = $request->title;
-        $product->slug = $this->generateUniqueSlug($request->title,Product::class);
-        $product->category_id = decrypt($request->category);
-        $product->small_description = $request->s_description;
-        $product->description = $request->editordata;
-        $product->price = $request->price;
-        $product->discounted_price = $request->discount_price;
-        $product->status = $request->status == "on" ? 1 : 0;
-
-
-        if ($request->hasFile('image')) {
-            $name = $product->image;
-            // Delete Old File
-            if (Storage::exists('public/products/images/' . $name)) {
-                Storage::delete('public/products/images/' . $name);
-            }
-            if (Storage::exists('public/products/images/no_bg_' . $name)) {
-                Storage::delete('public/products/images/no_bg_' . $name);
-            }
-            $request->image->storeAs('public/products/images', $name);
-            $bgService = new RemoveBgService();
-            // $bgService->removeProductBackground($product->imagePath, $name);
-        }
-        if (isset($request->pimage)) {
-            foreach ($request->pimage as $img) {
-                if (isset($img['id'])) {
-                    $pImage = ProductImages::where(['product_id' => $product->id, 'id' => $img['id']])->firstOrFail();
-                } else {
-                    $pImage = new ProductImages();
-                }
-                if (isset($img['file'])) {
-                    // Save the Image
-                    $uuid = Str::uuid()->toString();
-                    $name = Str::slug($request->title, '-') . '_' . $uuid . '_' . '.' . $img['file']->extension();
-                    $img['file']->storeAs('public/products/images', $name);
-                    $pImage->product_id = $product->id;
-                    $pImage->name = $name;
-                    $pImage->save();
-                }
-            }
-        }
-        $product->update();
+        $this->submit($request, $product, true);
 
         return to_route('products.index')->withSuccess("Product Updated Successfully");
     }
@@ -170,48 +138,172 @@ class ProductsController extends Controller
         if (Storage::exists($file)) {
             Storage::delete($file);
         }
-        Carousel::where('product_id',$product->id)->delete();
+        Carousel::where('product_id', $product->id)->delete();
         $product->delete();
     }
 
-    function submit($request, $item): void
+    function submit($request, $item, $isUpdate = false): void
     {
         $item->title = $request->title;
-        $item->slug = $this->generateUniqueSlug($request->title,Product::class);
+        $item->slug = $this->generateUniqueSlug($request->title, Product::class);
         $item->category_id = decrypt($request->category);
-        $item->small_description = $request->s_description;
+        $item->model = $request->model;
+        $item->sku = $request->sku;
+        $item->qty = $request->qty ?? 0;
         $item->description = $request->editordata;
-        $item->price = $request->price;
-        $item->discounted_price = $request->discount_price;
-        $item->status = $request->status == "on" ? 1 : 0;
+        $item->base_price = $request->base_price;
+        $item->discount = $request->discount;
+        $item->discount_type = $request->type;
+        $item->show_in_frontend = $request->show_in_frontend == "on" ? 1 : 0;
+        $item->is_featured = $request->is_featured == "on" ? 1 : 0;
+        $item->is_special = $request->is_special == "on" ? 1 : 0;
+
+        $item->meta_title = $request->meta_title;
+        $item->meta_keywords = $request->meta_keywords;
+        $item->meta_description = $request->meta_description;
+
+
 
 
 
         if ($request->hasFile('image')) {
-            // Save Actual Image
-            $uuid = Str::uuid()->toString();
-            $name = Str::slug($request->title, '-') . '_' . $uuid . '_' . '.' . $request->image->extension();
-            $item->image = $name;
+            if ($isUpdate) {
+                $name = $item->image;
+                // Delete Old File
+                if (Storage::exists('public/products/images/' . $name)) {
+                    Storage::delete('public/products/images/' . $name);
+                }
+                if (Storage::exists('public/products/images/no_bg_' . $name)) {
+                    Storage::delete('public/products/images/no_bg_' . $name);
+                }
+            } else {
+
+                // Save Actual Image
+                $uuid = Str::uuid()->toString();
+                $name = Str::slug($request->title, '-') . '_' . $uuid . '_' . '.' . $request->image->extension();
+                $item->image = $name;
+            }
             $request->image->storeAs('public/products/images', $name);
 
-            $bgService = new RemoveBgService();
-            $bgService->removeProductBackground($item->imagePath, $name);
+            // $bgService = new RemoveBgService();
+            // $bgService->removeProductBackground($item->imagePath, $name);
         }
-
-
 
         $item->save();
 
-        if (!is_null($request->pimage)) {
-            foreach ($request->pimage as $image) {
+
+        // Update Or Remove Old Size and Colors
+
+        if ($isUpdate) {
+            // Sizes
+            $previous_sizes = $item->sizes->pluck('id')->toArray();
+            if ($request->old_size) {
+                foreach ($request->old_size as $s) {
+                    $size = ProductSize::find($s['size_id']);
+                    if ($size) {
+                        $size->size = $s['size'];
+                        $size->qty = $s['qty'];
+                        $size->extra_price = $s['price'];
+                        $size->save();
+                        $sizeToKeep[] = $size->id;
+                    }
+                }
+            } else {
+                $sizeToKeep = [];
+            }
+            // Remove Remaining Sizes
+            $sizeToDelete = array_values(array_diff($previous_sizes, $sizeToKeep));
+            ProductSize::whereIn('id', $sizeToDelete)->delete();
+
+            // Colors
+            $previous_colors =  $item->colors->pluck('id')->toArray();
+
+            if ($request->old_color) {
+                foreach ($request->old_color as $c) {
+                    $color = ProductColor::find($c["color_id"]);
+                    if ($color) {
+                        $color->name = $c['color'];
+                        $color->save();
+                        $colorToKeep[] = $color->id;
+                    }
+                }
+            } else {
+                $colorToKeep = [];
+            }
+            // Remove Remaining Colors
+            $colorToDelete = array_values(array_diff($previous_colors, $colorToKeep));
+            ProductColor::whereIn('id', $colorToDelete)->delete();
+        }
+
+
+        if ($request->has('size')) {
+            foreach ($request->size as $psize) {
+
+                $size = new ProductSize();
+                $size->product_id = $item->id;
+                $size->size = $psize['number'];
+                $size->extra_price = $psize['price'];
+                $size->qty = $psize['qty'];
+                $size->save();
+            }
+        }
+
+
+        if ($request->has('color')) {
+            foreach ($request->color as $key => $pcolor) {
+                $color = new ProductColor();
+                $color->name = $pcolor['color'];
+                $color->product_id = $item->id;
+                $color->save();
+            }
+        }
+
+        // Check if update and old images are removed
+        if ($isUpdate) {
+            // Check Previous Imaegs
+            $previous_images = $item->images->pluck('id')->toArray();
+            $image_to_remove = array_values(array_diff($previous_images, $request->old_photos ?? []));
+
+            // dd($image_to_remove);
+
+            foreach ($image_to_remove as $img) {
+                $productImage   = ProductImages::find($img);
+                $file = 'public/products/images/' . $productImage->name;
+                if (Storage::exists($file)) {
+                    Storage::delete($file);
+                }
+                $productImage->delete();
+            }
+        }
+
+        // Save New Images
+
+        if ($request->has('photos')) {
+            foreach ($request->photos as $key => $image) {
                 $pImage = new ProductImages();
                 $uuid = Str::uuid()->toString();
-                $name = Str::slug($request->title, '-') . '_' . $uuid . '_' . '.' . $image['file']->extension();
-                $image['file']->storeAs('public/products/images', $name);
+                $name = Str::slug($request->title, '-') . '_' . $uuid . '_' . '.' . $image->extension();
+                $image->storeAs('public/products/images', $name);
                 $pImage->product_id = $item->id;
                 $pImage->name = $name;
                 $pImage->save();
             }
         }
+    }
+
+    public function updateStock(Request $request)
+    {
+        $request->validate([
+            'quantity' => 'required'
+        ]);
+        if ($request->p_id) {
+            $product = Product::find($request->p_id);
+            if ($product) {
+                $product->qty = $request->quantity;
+                $product->save();
+                return back()->withSuccess("Stock Updated Successfully");
+            }
+        }
+        return back()->withSuccess("Error while Updating the stock");
     }
 }

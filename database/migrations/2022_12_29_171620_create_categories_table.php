@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('parent_id')->default(0);
             $table->string('name');
-            $table->string('title');
-            $table->string('logo');
+            $table->string('title')->nullable();
+            $table->string('slug');
+            $table->string('logo')->default('default.png');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
 
