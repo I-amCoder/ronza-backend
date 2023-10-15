@@ -33,6 +33,9 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(SiteController::class)->prefix('site')->name('site.')->group(function () {
         Route::get('settings/', 'settings')->name('settings');
         Route::post('settings/', 'updateSettings')->name('settings.update');
+        Route::get('/carousel','carousel')->name('carousel');
+        Route::post('/carousel','saveCarousel')->name('carousel.store');
+        Route::delete('/carousel/{id}','deleteCarousel')->name('carousel.delete');
     });
     Route::controller(CategoryController::class)->group(function () {
         Route::resource('category', CategoryController::class);
@@ -43,9 +46,4 @@ Route::middleware(['auth'])->group(function () {
         Route::post('products/clone', [ProductsController::class,'cloneProduct'])->name('product.clone');
     });
 
-    Route::controller(FrontendController::class)->prefix('frontend')->name('frontend.')->group(function(){
-        Route::get('/carousel','carousel')->name('carousel');
-        Route::post('/carousel','saveCarousel')->name('carousel.store');
-        Route::delete('/carousel/{id}','deleteCarousel')->name('carousel.delete');
-    });
 });

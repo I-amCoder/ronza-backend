@@ -18,7 +18,6 @@ class FrontendController extends Controller
 
     public function carousel()
     {
-        $products = Product::all();
         $carousels = Carousel::all();
         return view('frontend.carousel',compact('products','carousels'));
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carousel;
 use App\Models\Site;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -72,5 +73,45 @@ class SiteController extends Controller
 
         $site->update();
         return redirect()->back()->withMessage(['type' => 'success', 'message' => 'Site Updated Successfully']);
+    }
+
+
+    public function carousel()
+    {
+        $carousels = Carousel::all();
+        return view('frontend.carousel', compact( 'carousels'));
+    }
+
+    public function saveCarousel(Request $request)
+    {
+        $request->validate([
+            'image'=>'required|mimes:png,jpg,jpeg'
+        ]);
+
+        dd($request->all());
+        if ($request->carousel_id) {
+            $carousel = Carousel::findOrFail(decrypt($request->carousel_id));
+        } else {
+            $carousel = new Carousel();
+        }
+        if($request->hasFile('image')){
+            $name = uniqid().'.'.$request->file('image')->extension();
+            $request->image->move(public_path('carousel/images/'),  $name);
+        }
+
+        $carousel->heading = $request->heading ?? "";
+        $carousel->title = $request->title ?? "";
+        $carousel->subtitle = $request->subtitle ??"";
+        $carousel->status = $request->status;
+        $carousel->save();
+
+        return back()->withSuccess("Carousel Saved Successfully");
+    }
+
+    public function deleteCarousel($id)
+    {
+        $carousel = Carousel::findOrFail($id);
+        $carousel->delete();
+        return back()->withSuccess("Carousel Item Deleted Successfully");
     }
 }

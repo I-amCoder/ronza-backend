@@ -9,8 +9,10 @@ class Carousel extends Model
 {
     use HasFactory;
 
-    public function product()
+    protected $appends = ['image_path'];
+
+    public function getImagePathAttribute()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return url('/carousel/images/' . $this->image);
     }
 }

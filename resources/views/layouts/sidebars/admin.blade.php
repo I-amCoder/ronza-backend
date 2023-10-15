@@ -39,7 +39,7 @@
 
 
     <li class="nav-item @yield('carousel')">
-        <a class="nav-link" href="{{ route('frontend.carousel') }}">
+        <a class="nav-link" href="{{ route('site.carousel') }}">
             <i class="fas fa-home"></i>
             <span>Main Carousel</span></a>
     </li>

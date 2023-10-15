@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('css')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+@endsection
 @section('carousel', 'active')
 @section('content')
     <div class="container-fluid">
@@ -31,7 +34,8 @@
                                             <td>{{ $carousel->title }}</td>
                                             <td>{{ $carousel->subtitle }}</td>
                                             <td>
-                                                <form action="{{ route('frontend.carousel.delete',$carousel->id) }}" method="POST">
+                                                <form action="{{ route('site.carousel.delete', $carousel->id) }}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" data-title="{{ $carousel->title }}"
@@ -64,7 +68,7 @@
     <!-- Add Carousel Modal-->
     <div class="modal fade" id="AddCarouselModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog  modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Add New Carousel</h5>
@@ -73,34 +77,66 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('frontend.carousel.store') }}" id="add-carousel-from" method="POST">
+                    <form action="{{ route('site.carousel.store') }}" enctype="multipart/form-data" id="add-carousel-from" method="POST">
                         @csrf
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-md-4 mb-3">
                                 <input type="hidden" name="carousel_id">
-                                <label for="title" class="form-label">Carousel Name</label>
-                                <select name="product" id="product" class="form-control">
-                                    @foreach ($products as $item)
-                                        <option value="{{ $item->id }}">{{ $item->title }}</option>
-                                    @endforeach
-                                </select>
+
+
+
+                                <label for="title" class="form-label">Carousel Heading</label>
+                                <textarea class="form-control wysiwyg" name="title" placeholder="Carousel Heading"></textarea>
                             </div>
-                            <div class="col-12">
+                            <div class="col-md-4 mb-3">
                                 <label for="title" class="form-label">Carousel Title</label>
-                                <input type="text" class="form-control" name="title" placeholder="Carousel title...">
+                                <textarea class="form-control wysiwyg" name="title" placeholder="Carousel title..."></textarea>
                             </div>
 
-                            <div class="col-12 mt-3">
+                            <div class="col-md-4 mb-3 ">
                                 <label for="title" class="form-label">Carousel SubTitle</label>
-                                <input type="text" class="form-control" name="subtitle"
-                                    placeholder="Carousel subtitle...">
+                                <textarea class="form-control wysiwyg" name="subtitle" placeholder="Carousel subtitle..."></textarea>
                             </div>
-                            <div class="col-12">
+                            <div class="col-md-4 mb-3 ">
+                                <label for="title" class="form-label">URL To Product (Optional)</label>
+                                <input type="text" class="form-control" name="url" placeholder="Carousel subtitle...">
+                            </div>
+                            <div class="col-auto">
+                                <label class="form-control-label" for="input-name">Image Banner</label>
+                                <div class="text-center">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview img-thumbnail" data-trigger="fileinput"
+                                            style="width: 200px;">
+                                            <img src="/images/placeholder.jpg" id="editImage" alt="edit Image">
+                                        </div>
+                                        <div>
+                                            <span class="btn btn-outline-secondary btn-file">
+                                                <span class="fileinput-new">{{ __('Select image') }}</span>
+                                                <span class="fileinput-exists">{{ __('Change') }}</span>
+
+
+                                                <input type="file" name="image"
+                                                    accept="image/x-png,image/gif,image/jpeg">
+                                            </span>
+                                            <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                                data-dismiss="fileinput">{{ __('Remove') }}</a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                @if ($errors->has('image'))
+                                    <span class="text-danger"><strong>{{ $errors->first('image') }}</strong></span>
+                                @endif
+
+                            </div>
+
+                            <div class="col-auto">
                                 <input type="hidden" name="carousel_id">
                                 <label for="title" class="form-label">Status</label>
                                 <select name="status" id="status" class="form-control">
                                     <option value="1">Active</option>
-                                    <option value="2">InActive</option>
+                                    <option value="2">Disabled</option>
 
                                 </select>
                             </div>
@@ -119,21 +155,36 @@
 
 @endsection
 @push('js')
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script>
-        $('.editCarousel').click(function() {
-            $("input[name='carousel_id']").val($(this).data('carousel'));
-            $("select[name='product']").val($(this).data('product'));
-            $("input[name='title']").val($(this).data('title'));
-            $("input[name='subtitle']").val($(this).data('subtitle'));
-            $("select[name='status']").val($(this).data('status'));
-            $("#AddCarouselModal").modal('show');
-        });
+        $(document).ready(function() {
 
-        $('.addCarousel').click(function() {
-            $("select[name='product']").val();
-            $("input[name='title']").val();
-            $("input[name='subtitle']").val();
-            $("#AddCarouselModal").modal('show');
+            $('.editCarousel').click(function() {
+                $("input[name='carousel_id']").val($(this).data('carousel'));
+                $("select[name='product']").val($(this).data('product'));
+                $("input[name='title']").val($(this).data('title'));
+                $("input[name='subtitle']").val($(this).data('subtitle'));
+                $("select[name='status']").val($(this).data('status'));
+                $("#AddCarouselModal").modal('show');
+            });
+
+            $('.addCarousel').click(function() {
+                $("select[name='product']").val();
+                $("input[name='title']").val();
+                $("input[name='subtitle']").val();
+                $("#AddCarouselModal").modal('show');
+            });
+
+            $('.wysiwyg').summernote({
+                height: 100, //set editable area's height
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', ]],
+                    ['font', ['strikethrough']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+
+                ]
+            });
         });
     </script>
 @endpush

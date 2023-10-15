@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('carousels', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->string('title');
-            $table->string('subtitle');
+            $table->string('image');
+            $table->string('heading')->nullable();
+            $table->string('title')->nullable();
+            $table->string('subtitle')->nullable();
+            $table->string('link_to_product')->nullable();
             $table->tinyInteger('status');
             $table->timestamps();
         });
