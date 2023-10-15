@@ -12,7 +12,6 @@ use App\Services\RemoveBgService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Maatwebsite\Excel\Facades\Excel;
 
 
 
@@ -26,9 +25,6 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $data = Excel::toArray([],public_path('/data.xlsx'));
-        dd($data);
-
         $products = Product::paginate(15);
         return view('products.index', compact('products'));
     }
@@ -305,5 +301,44 @@ class ProductsController extends Controller
             }
         }
         return back()->withSuccess("Error while Updating the stock");
+    }
+
+    public function cloneProduct(Request $request)
+    {
+        $product = Product::find($request->clone_id);
+        if ($product) {
+            $clone = $product->replicate();
+            $clone->created_at = now();
+            $clone->save();
+
+            if ($request->clone_image == "on") {
+                foreach ($product->images as $image) {
+                    $newImage = $image->replicate();
+                    $newImage->product_id = $clone->id;
+                    $newImage->created_at = now();
+                    $newImage->save();
+                }
+            }
+
+            if ($request->clone_size == "on") {
+                foreach ($product->sizes as $size) {
+                    $newSize = $size->replicate();
+                    $newSize->product_id = $clone->id;
+                    $newSize->created_at = now();
+                    $newSize->save();
+                }
+            }
+
+            if ($request->clone_color == "on") {
+                foreach ($product->colors as $color) {
+                    $newColor = $color->replicate();
+                    $newColor->product_id = $clone->id;
+                    $newColor->created_at = now();
+                    $newColor->save();
+                }
+            }
+            return back()->withSuccess("Product Cloned Successfully");
+        }
+        return back()->withError("Product Not Found");
     }
 }

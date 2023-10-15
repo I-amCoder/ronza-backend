@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(ProductsController::class)->group(function () {
         Route::resource('products', ProductsController::class);
         Route::post('products/update-stock', [ProductsController::class,'updateStock'])->name('product.stock.update');
+        Route::post('products/clone', [ProductsController::class,'cloneProduct'])->name('product.clone');
     });
 
     Route::controller(FrontendController::class)->prefix('frontend')->name('frontend.')->group(function(){

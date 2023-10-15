@@ -121,7 +121,13 @@
 
     <script src="{{ asset('dashboard-theme') }}/js/sb-admin-2.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/js/jasny-bootstrap.min.js"></script>
-
+    <script>
+        $(document).ready(function() {
+            $(function() {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        });
+    </script>
 
     {{-- @notifyJs --}}
     @stack('js')

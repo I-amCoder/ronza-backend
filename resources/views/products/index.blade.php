@@ -30,14 +30,14 @@
                                                 <img class="img-table-sm" src="{{ $product->imagePath }}"
                                                     alt="{{ $product->title }}">
                                             </td>
-                                            <td>{{ $product->title }}</td>
+                                            <td  data-toggle="tooltip" title="{{ $product->title }}" class="title-truncate">{{ $product->title }}</td>
                                             <td>{{ $product->category->name }}</td>
                                             <td>{{ $product->base_price }}</td>
                                             <td>{{ $product->discount }}{{ $product->discount_type == 'percentage' ? '%' : 'USD' }}
                                             </td>
                                             <td>
-                                                <span data-p_id="{{ $product->id }}" data-qty="{{ $product->qty }}" style="cursor: pointer" class="updateStock">
-                                                    {{ $product->qty }} <i class="fa fa-plus text-danger "></i>
+                                                <span data-toggle="tooltip" title="Change" data-p_id="{{ $product->id }}" data-qty="{{ $product->qty }}" style="cursor: pointer" class="updateStock">
+                                                    {{ $product->qty }} <i class="fa fa-edit text-danger "></i>
                                                 </span>
                                             </td>
                                             <td>
@@ -45,11 +45,12 @@
                                                     method="post">
                                                     @method('delete')
                                                     @csrf
-                                                    <a href="{{ route('products.edit', $product->id) }}"
+                                                    <a data-toggle="tooltip" title="Edit"  href="{{ route('products.edit', $product->id) }}"
                                                         class="btn btn-sm btn-warning">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i
+                                                    <button data-toggle="tooltip"  title="Clone" data-clone_id="{{ $product->id }}" data-name="{{ $product->title }}" type="button" class="btn btn-info btn-sm cloneProduct"><i class="fa fa-copy"></i></button>
+                                                    <button data-toggle="tooltip" title="Delete" ="submit" class="btn btn-danger btn-sm"><i
                                                             class="fa fa-trash"></i></button>
                                                 </form>
                                             </td>
@@ -66,50 +67,26 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="updateStockModal" tabindex="-1" role="dialog" aria-labelledby="updateStockModalTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateStockModalTitle">Update available stock</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('product.stock.update') }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="quantity" class="form-label">Quantity</label>
-                                <input type="hidden" name="p_id">
-                                <input type="number" class="form-control @error('quantity') is-invliad @enderror"
-                                    name="quantity" required>
-                                @error('quantity')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+  @include('products.partials.models')
 @endsection
 
 @push('js')
     <script>
         $(document).ready(function() {
+
             $(".updateStock").click(function(e) {
                 e.preventDefault();
                 $("input[name=p_id]").val($(this).data('p_id'));
                 $("input[name=quantity]").val($(this).data('qty'));
                 $("#updateStockModal").modal('show');
+            });
+
+            $(".cloneProduct").click(function (e) {
+                e.preventDefault();
+                let modal = $("#cloneProductModal");
+                $("#cloneProductModalTitle").html($(this).data('name'));
+                $("input[name=clone_id]").val($(this).data('clone_id'));
+                modal.modal('show');
             });
         });
     </script>
