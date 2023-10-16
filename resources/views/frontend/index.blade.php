@@ -961,12 +961,3 @@
 
     <!-- Li's Trendding Products Area End Here -->
 @endsection
-@push('js')
-    <script>
-        $(document).ready(function() {
-            $.each(".single-slide", function(index, element) {
-                element.attr("style", `background-image: url(${element.data('background')})`);
-            });
-        });
-    </script>
-@endpush

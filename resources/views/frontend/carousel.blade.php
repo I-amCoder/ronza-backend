@@ -32,7 +32,7 @@
                                     @foreach ($carousels as $carousel)
                                         <tr>
                                             <td><img class="img-table-sm" src="{{ $carousel->image_path }}" alt="image"></td>
-                                            <td>{!! json_decode($carousel->heading) !!}</td>
+                                            <td class="title-truncate">{!! json_decode($carousel->heading) !!}</td>
                                             <td>{!! json_decode($carousel->title) !!}</td>
                                             <td>{!! json_decode($carousel->subtitle) !!}</td>
                                             <td>
