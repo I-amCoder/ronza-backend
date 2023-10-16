@@ -22,7 +22,8 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
-                                    <th>Product</th>
+                                    <th>Image</th>
+                                    <th>Heading</th>
                                     <th>Title</th>
                                     <th>Subtitle</th>
                                     <th>Action</th>
@@ -30,19 +31,23 @@
                                 <tbody>
                                     @foreach ($carousels as $carousel)
                                         <tr>
-                                            <td>{{ $carousel->product->title }}</td>
-                                            <td>{{ $carousel->title }}</td>
-                                            <td>{{ $carousel->subtitle }}</td>
+                                            <td><img class="img-table-sm" src="{{ $carousel->image_path }}" alt="image"></td>
+                                            <td>{!! json_decode($carousel->heading) !!}</td>
+                                            <td>{!! json_decode($carousel->title) !!}</td>
+                                            <td>{!! json_decode($carousel->subtitle) !!}</td>
                                             <td>
                                                 <form action="{{ route('site.carousel.delete', $carousel->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="button" data-title="{{ $carousel->title }}"
-                                                        data-subtitle="{{ $carousel->title }}"
+                                                    <button type="button" data-heading="{{ $carousel->heading }}"
+                                                        data-title="{{ $carousel->title }}"
+                                                        data-subtitle="{{ $carousel->subtitle }}"
                                                         data-product="{{ $carousel->product_id }}"
                                                         data-carousel="{{ encrypt($carousel->id) }}"
+                                                        data-image="{{ $carousel->image_path }}"
                                                         data-status="{{ $carousel->status }}"
+                                                        data-link="{{ $carousel->link_to_product }}"
                                                         class="btn btn-sm btn-warning editCarousel"><i
                                                             class="fa fa-edit"></i>
                                                     </button>
@@ -66,9 +71,9 @@
 
     {{-- Modals --}}
     <!-- Add Carousel Modal-->
-    <div class="modal fade" id="AddCarouselModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" data-backdrop="static" id="AddCarouselModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog  modal-dialog-scrollable modal-xl" role="document">
+        <div class="modal-dialog modal-static  modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Add New Carousel</h5>
@@ -86,7 +91,7 @@
 
 
                                 <label for="title" class="form-label">Carousel Heading</label>
-                                <textarea class="form-control wysiwyg" name="title" placeholder="Carousel Heading"></textarea>
+                                <textarea class="form-control wysiwyg" name="heading" placeholder="Carousel Heading">hi</textarea>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="title" class="form-label">Carousel Title</label>
@@ -98,8 +103,8 @@
                                 <textarea class="form-control wysiwyg" name="subtitle" placeholder="Carousel subtitle..."></textarea>
                             </div>
                             <div class="col-md-4 mb-3 ">
-                                <label for="title" class="form-label">URL To Product (Optional)</label>
-                                <input type="text" class="form-control" name="url" placeholder="Carousel subtitle...">
+                                <label for="link" class="form-label">URL To Product (Optional)</label>
+                                <input type="text" class="form-control" name="link" placeholder="Link to Prduct">
                             </div>
                             <div class="col-auto">
                                 <label class="form-control-label" for="input-name">Image Banner</label>
@@ -107,7 +112,7 @@
                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-preview img-thumbnail" data-trigger="fileinput"
                                             style="width: 200px;">
-                                            <img src="/images/placeholder.jpg" id="editImage" alt="edit Image">
+                                            <img src="" id="editImage" alt="edit Image">
                                         </div>
                                         <div>
                                             <span class="btn btn-outline-secondary btn-file">
@@ -161,17 +166,20 @@
 
             $('.editCarousel').click(function() {
                 $("input[name='carousel_id']").val($(this).data('carousel'));
-                $("select[name='product']").val($(this).data('product'));
-                $("input[name='title']").val($(this).data('title'));
-                $("input[name='subtitle']").val($(this).data('subtitle'));
+                $("input[name='link']").val($(this).data('link'));
+                $(".wysiwyg[name=heading]").summernote('code',JSON.parse($(this).data('heading')));
+                $(".wysiwyg[name=title]").summernote('code',JSON.parse($(this).data('title')));
+                $(".wysiwyg[name=subtitle]").summernote('code',JSON.parse($(this).data('subtitle')));
+                $("#editImage").attr("src", $(this).data('image'));
                 $("select[name='status']").val($(this).data('status'));
                 $("#AddCarouselModal").modal('show');
             });
 
             $('.addCarousel').click(function() {
-                $("select[name='product']").val();
-                $("input[name='title']").val();
-                $("input[name='subtitle']").val();
+                $('.wysiwyg[name=heading]').summernote('code', "");
+                $('.wysiwyg[name=title]').summernote('code', "");
+                $('.wysiwyg[name=subtitle]').summernote('code', "");
+                $("#editImage").attr("src", "/images/placeholder.jpg");
                 $("#AddCarouselModal").modal('show');
             });
 

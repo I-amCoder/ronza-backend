@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('carousels', function (Blueprint $table) {
             $table->id();
             $table->string('image');
-            $table->string('heading')->nullable();
-            $table->string('title')->nullable();
-            $table->string('subtitle')->nullable();
+            $table->text('heading')->nullable();
+            $table->text('title')->nullable();
+            $table->text('subtitle')->nullable();
             $table->string('link_to_product')->nullable();
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(0)->comment('0=>disabled, 1=>active');
             $table->timestamps();
         });
     }

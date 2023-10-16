@@ -13,6 +13,7 @@ class FrontendController extends Controller
         $data['categories'] = Category::all();
         $data['featured_products'] = Product::where('is_featured',true)->get();
         $data['special_products'] = Product::where('is_special',true)->get();
+        $data['carousels'] = Carousel::where('status',1)->get();
         return view('frontend.index',compact('data'));
     }
 

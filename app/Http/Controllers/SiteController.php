@@ -6,6 +6,7 @@ use App\Models\Carousel;
 use App\Models\Site;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class SiteController extends Controller
 {
@@ -79,38 +80,61 @@ class SiteController extends Controller
     public function carousel()
     {
         $carousels = Carousel::all();
-        return view('frontend.carousel', compact( 'carousels'));
+        return view('frontend.carousel', compact('carousels'));
     }
 
     public function saveCarousel(Request $request)
     {
-        $request->validate([
-            'image'=>'required|mimes:png,jpg,jpeg'
-        ]);
-
-        dd($request->all());
+        $isUpdate = false;
         if ($request->carousel_id) {
+            $isUpdate = true;
+        }
+        $rules = [];
+        if (!$isUpdate) {
+            $rules['image'] = 'required|mimes:png,jpg,jpeg';
+        }
+
+        $request->validate($rules);
+
+
+        if ($isUpdate) {
             $carousel = Carousel::findOrFail(decrypt($request->carousel_id));
         } else {
             $carousel = new Carousel();
         }
-        if($request->hasFile('image')){
-            $name = uniqid().'.'.$request->file('image')->extension();
+
+        if ($request->hasFile('image')) {
+            if ($isUpdate) {
+                // Delete Old Image File
+                $file = public_path('/carousel/images/' . $carousel->image);
+                if (File::exists($file)) {
+                    File::delete($file);
+                }
+            }
+            // Save New Image
+            $name = 'carousel_' . uniqid() . '.' . $request->file('image')->extension();
+            $carousel->image = $name;
             $request->image->move(public_path('carousel/images/'),  $name);
         }
 
-        $carousel->heading = $request->heading ?? "";
-        $carousel->title = $request->title ?? "";
-        $carousel->subtitle = $request->subtitle ??"";
-        $carousel->status = $request->status;
+        $carousel->heading = json_encode($request->heading) ?? "";
+        $carousel->title = json_encode($request->title) ?? "";
+        $carousel->subtitle = json_encode($request->subtitle) ?? "";
+        $carousel->link_to_product = $request->link ?? "";
+        $carousel->status = intval($request->status);
         $carousel->save();
 
-        return back()->withSuccess("Carousel Saved Successfully");
+        $message = "Carousel " . $isUpdate ? "Updated" : "Saved" . " successfully";
+        return back()->withSuccess($message);
     }
 
     public function deleteCarousel($id)
     {
         $carousel = Carousel::findOrFail($id);
+        $file = public_path('/carousel/images/' . $carousel->image);
+        if (File::exists($file)) {
+            File::delete($file);
+        }
         $carousel->delete();
         return back()->withSuccess("Carousel Item Deleted Successfully");
     }

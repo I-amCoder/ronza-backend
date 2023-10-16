@@ -1,6 +1,6 @@
 @extends('frontend.layouts.front')
 @section('content')
-    @include('frontend.partials.slider')
+    @include('frontend.partials.slider', ['carousels' => $data['carousels']])
 
 
     <!-- Begin Product Area -->
@@ -955,9 +955,18 @@
     </div>
     <!-- Li's Static Home Area End Here -->
 
-    @include('frontend.partials.featured_products',['products'=>$data['featured_products']])
+    @include('frontend.partials.featured_products', ['products' => $data['featured_products']])
     @include('frontend.partials.special_products')
 
 
     <!-- Li's Trendding Products Area End Here -->
 @endsection
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $.each(".single-slide", function(index, element) {
+                element.attr("style", `background-image: url(${element.data('background')})`);
+            });
+        });
+    </script>
+@endpush

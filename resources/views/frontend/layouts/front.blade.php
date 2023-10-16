@@ -97,6 +97,9 @@
         <script src="{{ asset('frontend') }}/js/scrollUp.min.js"></script>
         <!-- Main/Activator js -->
         <script src="{{ asset('frontend') }}/js/main.js"></script>
+
+        <!-- Custom Javascript -->
+        @stack('js')
     </body>
 
 <!-- index30:23-->
