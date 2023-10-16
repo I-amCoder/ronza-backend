@@ -1463,7 +1463,7 @@ textarea:focus {
 	position: relative;
 }
 .select-search-category ul.list {
-	height: 440px;
+	max-height: 440px;
 	overflow-y: auto;
 	overscroll-behavior-x: none;
 }
@@ -1773,7 +1773,7 @@ textarea:focus {
 .hb-menu nav > ul > li:hover > a::after {
 		color: #ffffff;
 }
-.hb-menu nav > ul > li > a::after {
+/* .hb-menu nav > ul > li > a::after {
 	content: "\f107";
 	position: absolute;
 	top: 8px;
@@ -1782,8 +1782,8 @@ textarea:focus {
 	font-size: 18px;
 	transition: all 0.3s ease-in-out;
 	color: #FFF8C9;
-}
-.hb-menu nav > ul > li:nth-child(n+5) > a::after {
+} */
+.hb-menu nav > ul > li:nth-child(n+3) > a::after {
 	content: none;
 }
 .hb-menu nav > ul > li:hover  a::after {

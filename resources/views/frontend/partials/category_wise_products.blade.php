@@ -1,6 +1,6 @@
 @foreach ($categories as $category)
-<section class="product-area li-laptop-product pt-60 pb-45">
     @if ($category->products->count() > 0)
+        <section class="product-area li-laptop-product pt-60 pb-45">
             <div class="container">
                 <div class="row">
                     <!-- Begin Li's Section Area -->
@@ -18,7 +18,6 @@
                         <div class="row">
                             <div class="{{ $loop->index == '0' ? 'product-active' : '' }} owl-carousel">
                                 @foreach ($category->products as $product)
-
                                     <div class="col-lg-12">
                                         <!-- single-product-wrap start -->
                                         <div class="single-product-wrap">
@@ -77,6 +76,6 @@
                     <!-- Li's Section Area End Here -->
                 </div>
             </div>
-            @endif
         </section>
+    @endif
 @endforeach

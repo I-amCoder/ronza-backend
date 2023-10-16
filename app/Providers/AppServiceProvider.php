@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use App\Models\Site;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,6 +28,13 @@ class AppServiceProvider extends ServiceProvider
         try {
             $settings = Site::find(1);
             config(['settings' => $settings]);
+            $categories = Category::where('status',1)->get();
+            view()->composer('frontend.layouts.partials.navbar', function($view) use ($categories){
+                $view->with([
+                    'categories'=>$categories
+                ]);
+            });
+
         } catch (\Throwable $th) {
             return;
         }

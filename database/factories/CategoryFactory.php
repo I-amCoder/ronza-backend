@@ -16,10 +16,6 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'name' => fake()->name(),
-            'title' => fake()->title(),
-            'logo' => "default.png"
-        ];
+
     }
 }
