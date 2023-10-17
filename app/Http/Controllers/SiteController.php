@@ -21,40 +21,31 @@ class SiteController extends Controller
 
         $request->validate([
             'site_name' => 'required|string',
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'email' => 'required|email',
-            'address' => 'required|string',
-            'phone' => 'required|string',
-            'store_link' => 'required|string',
+            'email' => 'sometimes:email',
+            'address' => 'sometimes:string',
+            'phone' => 'sometimes:string',
+
         ]);
 
         // Update Common
         $site = Site::findOrFail(1);
         $site->site_name = strip_tags($request->site_name);
-        $site->title = strip_tags($request->title);
-        $site->description = strip_tags($request->description);
-        $site->address = strip_tags($request->address);
-        $site->phone = strip_tags($request->phone);
-        $site->email = strip_tags($request->email);
-        $site->store_link = strip_tags($request->store_link);
+        $site->address = strip_tags($request->address) ?? "";
+        $site->phone = strip_tags($request->phone) ?? "";
+        $site->email = strip_tags($request->email) ?? "";
+        $site->currency = strip_tags($request->currency) ?? "";
+        $site->currency_symbol = strip_tags($request->currency_symbol) ?? "";
 
         // Update Social
-        if ($request->facebook) {
-            $site->facebook = $request->facebook;
-        }
-        if ($request->twitter) {
-            $site->twitter = $request->twitter;
-        }
-        if ($request->instagram) {
-            $site->instagram = $request->instagram;
-        }
-        if ($request->youtube) {
-            $site->youtube = $request->youtube;
-        }
-        if ($request->pinterest) {
-            $site->pinterest = $request->pinterest;
-        }
+
+        $site->facebook = $request->facebook ??  "";
+        $site->twitter = $request->twitter ??  "";
+        $site->instagram = $request->instagram ??  "";
+        $site->youtube = $request->youtube ??  "";
+        $site->pinterest = $request->pinterest ??  "";
+        $site->meta_title = $request->meta_title ??  "";
+        $site->meta_description = $request->meta_description ??  "";
+        $site->meta_keywords = $request->meta_keywords ??  "";
 
         // Upload Images
         if ($request->hasFile('image')) {

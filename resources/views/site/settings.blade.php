@@ -15,6 +15,8 @@
             {{-- Common Settings --}}
             @include('site.partials.common')
             <hr>
+            @include('site.partials.meta')
+            <hr>
             @include('site.partials.social')
             <hr>
             @include('site.partials.images')

@@ -16,17 +16,7 @@ class SiteSettingsSeeder extends Seeder
     public function run()
     {
         DB::table('sites')->insert([
-            'site_name' => 'name',
-            'email' => 'name',
-            'phone' => 'name',
-            'logo' => 'name',
-            'image' => 'name',
-            'address' => 'name',
-            'title' => 'name',
-            'store_link' => 'name',
-            'description' => 'name',
-            'currency' => 'name',
-            'currency_symbol' => 'name',
+            'site_name' => 'Ronza',
         ]);
     }
 }

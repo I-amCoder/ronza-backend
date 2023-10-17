@@ -11,27 +11,6 @@
         @enderror
     </div>
     <div class="col-md-6 col-lg-4 mb-3">
-        <label for="title" class="from-lable">Site Title</label>
-        <input type="text" id="title" name="title" class="form-control @error('title') is-invalid @enderror"
-            placeholder="Enter Site Title...." value="{{ $site->title }}">
-        @error('title')
-            <span role="alert" class="text-danger">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
-    </div>
-    <div class="col-md-6 col-lg-4 mb-3">
-        <label for="description" class="from-lable">Site Description</label>
-        <input type="text" id="description" name="description"
-            class="form-control @error('description') is-invalid @enderror" placeholder="Enter Site Description...."
-            value="{{ $site->description }}">
-        @error('description')
-            <span role="alert" class="text-danger">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
-    </div>
-    <div class="col-md-6 col-lg-4 mb-3">
         <label for="email" class="from-lable">Site Email</label>
         <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror"
             placeholder="Enter Site Email...." value="{{ $site->email }}">
@@ -61,12 +40,24 @@
             </span>
         @enderror
     </div>
+
     <div class="col-md-6 col-lg-4 mb-3">
-        <label for="store_link" class="from-lable">Store Link</label>
-        <input type="url" id="store_link" name="store_link"
-            class="form-control @error('store_link') is-invalid @enderror" placeholder="Enter Store Link...."
-            value="{{ $site->store_link }}">
-        @error('store_link')
+        <label for="currency" class="from-lable">Site Currency</label>
+        <input type="text" id="currency" name="currency"
+            class="form-control @error('currency') is-invalid @enderror" placeholder="e.g., USD"
+            value="{{ $site->currency }}">
+        @error('currency')
+            <span role="alert" class="text-danger">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+    <div class="col-md-6 col-lg-4 mb-3">
+        <label for="currency_symbol" class="from-lable">Currency Symbol</label>
+        <input type="text" id="currency_symbol" name="currency_symbol"
+            class="form-control @error('currency_symbol') is-invalid @enderror" placeholder="e.g., $"
+            value="{{ $site->currency_symbol }}">
+        @error('currency_symbol')
             <span role="alert" class="text-danger">
                 <strong>{{ $message }}</strong>
             </span>

@@ -21,7 +21,7 @@ class Site extends Model
     }
     public function getLogoPathAttribute()
     {
-        if (!is_null($this->image)) {
+        if (!is_null($this->logo)) {
             return url('/sites/logos/' . $this->logo);
         } else {
             return null;

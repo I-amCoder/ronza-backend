@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
             $table->string('site_name');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('logo');
-            $table->string('image');
-            $table->string('address');
-            $table->string('title');
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('image')->nullable();
+            $table->string('address')->nullable();
             $table->string('currency_symbol')->default('$');
             $table->string('currency')->default('USD');
-            $table->string('store_link');
-            $table->string('description');
+            $table->string('meta_title')->nullable();
+            $table->string('meta_description')->nullable();
+            $table->string('meta_keywords')->nullable();
             $table->string('facebook')->nullable();
             $table->string('twitter')->nullable();
             $table->string('youtube')->nullable();
