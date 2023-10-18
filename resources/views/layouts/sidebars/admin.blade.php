@@ -26,18 +26,24 @@
     <div class="sidebar-heading">
         Site
     </div>
-    <li class="nav-item @yield('categories')">
+    <li class="nav-item {{ activeRoute('category.index') }}">
         <a class="nav-link " href="{{ route('category.index') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Categories</span></a>
     </li>
-    <li class="nav-item @yield('products')">
+    <li class="nav-item {{ activeRoute(['products.index', 'products.edit', 'products.create']) }}">
         <a class="nav-link" href="{{ route('products.index') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Products</span></a>
     </li>
 
 
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('site.banners') }}">
+            <i class="fas fa-home"></i>
+
+            <span>Site Banners</span></a>
+    </li>
     <li class="nav-item @yield('carousel')">
         <a class="nav-link" href="{{ route('site.carousel') }}">
             <i class="fas fa-home"></i>

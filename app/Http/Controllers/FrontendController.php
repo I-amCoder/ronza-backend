@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Carousel;
 use App\Models\Category;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
     public function index(){
         $data['categories'] = Category::all();
-        $data['featured_products'] = Product::where('is_featured',true)->get();
-        $data['special_products'] = Product::where('is_special',true)->get();
-        $data['carousels'] = Carousel::where('status',1)->get();
+        $data['featured_products'] = Product::where('is_featured',true)->latest()->get();
+        $data['special_products'] = Product::where('is_special',true)->latest()->get();
+        $data['new_arrivals'] = Product::where('created_at','>', Carbon::now()->subDays(2))->latest()->get();
+        $data['discounted_products'] = Product::where('discount','>',0)->latest()->get();
+        $data['carousels'] = Carousel::where('status',1)->latest()->get();
         return view('frontend.index',compact('data'));
     }
 

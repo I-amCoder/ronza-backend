@@ -25,7 +25,7 @@
                                                 <a href="single-product.html">
                                                     <img src="{{ $product->image_path }}" alt="Li's Product Image">
                                                 </a>
-                                                @if ($product->created_at > \Carbon\Carbon::now()->subHours(24))
+                                                @if ($product->is_new)
                                                     <span class="sticker">New</span>
                                                 @endif
                                             </div>
@@ -48,15 +48,24 @@
                                                     <h4><a class="product_name"
                                                             href="single-product.html">{{ $product->title }}</a></h4>
                                                     <div class="price-box">
-                                                        <span
-                                                            class="new-price new-price-2">${{ $product->base_price }}</span>
-                                                        <span class="old-price">$77.22</span>
-                                                        <span class="discount-percentage">-7%</span>
+                                                        @if ($product->discount > 0)
+                                                            <span
+                                                                class="new-price new-price-2">{{ $product->discounted_price }}</span>
+                                                            <span class="old-price">@money($product->base_price) </span>
+                                                        @else
+                                                            <span class="new-price new-price-2">@money($product->base_price)
+                                                            </span>
+                                                        @endif
+                                                        @if ($product->discount > 0)
+                                                            <span
+                                                                class="discount-percentage">{{ $product->discount_percentage }}</span>
+                                                        @endif
+
                                                     </div>
                                                 </div>
                                                 <div class="add-actions">
                                                     <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Add to cart</a>
+                                                        <li class="add-cart active"><a href="#">Buy Now</a>
                                                         </li>
                                                         <li><a class="links-details" href="wishlist.html"><i
                                                                     class="fa fa-heart-o"></i></a></li>

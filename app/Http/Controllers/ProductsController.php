@@ -134,7 +134,6 @@ class ProductsController extends Controller
         if (Storage::exists($file)) {
             Storage::delete($file);
         }
-        Carousel::where('product_id', $product->id)->delete();
         $product->delete();
     }
 

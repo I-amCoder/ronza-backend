@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 
 // Frontend site routes
-Route::controller(FrontendController::class)->group(function(){
-    Route::get('/','index')->name('front.index');
+Route::controller(FrontendController::class)->name('front.')->group(function(){
+    Route::get('/','index')->name('index');
 });
 
 
@@ -33,9 +33,11 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(SiteController::class)->prefix('site')->name('site.')->group(function () {
         Route::get('settings/', 'settings')->name('settings');
         Route::post('settings/', 'updateSettings')->name('settings.update');
-        Route::get('/carousel','carousel')->name('carousel');
-        Route::post('/carousel','saveCarousel')->name('carousel.store');
+        Route::get('carousel','carousel')->name('carousel');
+        Route::post('carousel','saveCarousel')->name('carousel.store');
         Route::delete('/carousel/{id}','deleteCarousel')->name('carousel.delete');
+        Route::get('banners','siteBanner')->name('banners');
+        Route::post('banner','saveBanner')->name('banners.save');
     });
     Route::controller(CategoryController::class)->group(function () {
         Route::resource('category', CategoryController::class);

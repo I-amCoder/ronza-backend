@@ -76,7 +76,7 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
 /* 05. Main Slider Activision
 /*----------------------------------------*/
 	$(".slider-active").owlCarousel({
-		loop: false,
+		loop: true,
 		margin: 0,
 		nav: true,
 		autoplay: true,
@@ -91,7 +91,7 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
 /* 06. Li's Product Activision
 /*----------------------------------------*/
 	$(".product-active").owlCarousel({
-		loop: true,
+		loop: false,
 		nav: true,
 		dots: false,
 		autoplay: false,
@@ -120,7 +120,7 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
 /* 07. Li's Product Activision
 /*----------------------------------------*/
 	$(".special-product-active").owlCarousel({
-		loop: true,
+		loop: false,
 		nav: false,
 		dots: false,
 		autoplay: false,
@@ -232,7 +232,7 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
 /* 12. Li's Product Activision
 /*----------------------------------------*/
 	$(".li-featured-product-active").owlCarousel({
-		loop: true,
+		loop: false,
 		nav: false,
 		dots: false,
 		margin: 30,
@@ -356,7 +356,7 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
  /* 19. Featured Product active
  /*----------------------------------------*/
  $('.featured-product-active').owlCarousel({
-     loop: true,
+     loop: false,
      nav: true,
      autoplay: false,
      autoplayTimeout: 5000,
@@ -384,7 +384,7 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
 /* 20. Featured Product 2 active
 /*----------------------------------------*/
  $('.featured-product-active-2').owlCarousel({
-     loop: true,
+     loop: false,
      nav: true,
      autoplay: false,
      autoplayTimeout: 5000,
@@ -486,7 +486,7 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
 /* 23. Single Prduct Carousel Activision
 /*----------------------------------------*/
  	$(".sp-carousel-active").owlCarousel({
- 		loop: true,
+ 		loop: false,
  		nav: false,
  		dots: false,
  		autoplay: false,

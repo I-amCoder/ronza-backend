@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\RemoveBgService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +11,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $appends = ['getStatus', 'imagePath', 'nonBgImg'];
+    protected $appends = ['getStatus', 'imagePath', 'nonBgImg', 'discounted_price', 'discount_percentage','is_new'];
 
     public function category()
     {
@@ -49,5 +50,36 @@ class Product extends Model
     public function getNonBgImgAttribute()
     {
         return url('storage/products/images/no_bg_' . $this->image);
+    }
+
+    public function getDiscountedPriceAttribute()
+    {
+        if ($this->discount_type == "percentage") {
+            $base_price = $this->base_price;
+            $discount = ($base_price * $this->discount) / 100;
+            $amount = $base_price - $discount;
+            return showAmount($amount);
+        } else {
+            $base_price = $this->base_price;
+            $discount = $this->discount;
+            return showAmount(($base_price - $discount));
+        }
+    }
+
+    public function getDiscountPercentageAttribute()
+    {
+        if ($this->discount_type == "percentage") {
+            return "-".$this->discount . " %";
+        } else {
+            $percentage = ($this->discount / $this->base_price) * 100;
+            return "-".$percentage. " %";
+        }
+    }
+
+    public function getIsNewAttribute(){
+        if($this->created_at > Carbon::now()->subDays(2)){
+            return true;
+        }
+        return false;
     }
 }

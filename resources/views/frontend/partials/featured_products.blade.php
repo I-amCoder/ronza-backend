@@ -53,10 +53,19 @@
                                                                 href="single-product.html">{{ $product->title }}</a>
                                                         </h4>
                                                         <div class="price-box">
-                                                            <span
-                                                                class="new-price new-price-2">${{ $product->base_price }}</span>
-                                                            <span class="old-price">$77.22</span>
-                                                            <span class="discount-percentage">-7%</span>
+                                                            @if ($product->discount > 0)
+                                                                <span
+                                                                    class="new-price new-price-2">{{ $product->discounted_price }}</span>
+                                                                <span class="old-price">@money($product->base_price) </span>
+                                                            @else
+                                                                <span class="new-price new-price-2">@money($product->base_price)
+                                                                </span>
+                                                            @endif
+                                                            @if ($product->discount > 0)
+                                                                <span
+                                                                    class="discount-percentage">{{ $product->discount_percentage }}</span>
+                                                            @endif
+
                                                         </div>
                                                     </div>
                                                     <div class="add-actions">
