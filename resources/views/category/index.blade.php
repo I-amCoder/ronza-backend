@@ -1,11 +1,9 @@
 @extends('layouts.app')
-@section('categories', 'active')
+@section('title', 'Manage Categories')
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <h4>Manage Categories</h4>
-                <hr>
                 <button class="btn btn-success" data-toggle="modal" data-target="#AddCategoryModal">Add New
                     Category</button>
             </div>
@@ -14,7 +12,7 @@
 
             <div class="col-12 mt-3">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table datatable">
                         <thead>
                             <th></th>
                             <th>Name</th>

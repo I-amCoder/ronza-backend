@@ -1,14 +1,10 @@
 @extends('layouts.app')
-@section('settings', 'active')
+@section('title', 'Site Settings')
 
 
 
 @section('content')
     <div class="container-fluid">
-        <div class="row">
-            <h2 class="text-dark">Site Settings</h2>
-        </div>
-        <hr>
         <form action="{{ route('site.settings.update', encrypt($site->id)) }}" class="mb-5" method="POST"
             enctype="multipart/form-data">
             @csrf

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Edit Product')
 @section('css')
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('dashboard-theme/css/image-uploader.min.css') }}">
@@ -8,7 +9,6 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <h2>Manage Products</h2>
                 <a href="{{ route('products.index') }}" class="btn btn-danger">
                     <i class="fa fa-backward"></i>
                     Back

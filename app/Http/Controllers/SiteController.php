@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Carousel;
 use App\Models\Site;
 use Illuminate\Support\Str;
@@ -128,5 +129,48 @@ class SiteController extends Controller
         }
         $carousel->delete();
         return back()->withSuccess("Carousel Item Deleted Successfully");
+    }
+
+    // Banners
+
+    public function siteBanner()
+    {
+        $banners = Banner::first();
+        return view('site.banners', compact('banners'));
+    }
+
+    public function saveBanner(Request $request)
+    {
+        $request->validate([
+            'top_banner_1' => ['sometimes' => ['mimes' => ['png', 'jpg', 'jpeg']]],
+            'top_banner_2' => ['sometimes' => ['mimes' => ['png', 'jpg', 'jpeg']]],
+            'middle_banner_1' => ['sometimes' => ['mimes' => ['png', 'jpg', 'jpeg']]],
+            'middle_banner_2' => ['sometimes' => ['mimes' => ['png', 'jpg', 'jpeg']]],
+            'middle_banner_3' => ['sometimes' => ['mimes' => ['png', 'jpg', 'jpeg']]],
+            'bottom_banner_1' => ['sometimes' => ['mimes' => ['png', 'jpg', 'jpeg']]],
+        ]);
+
+        $isUpdate = true;
+
+        $banner = Banner::first();
+        if (!$banner) {
+            $banner = new Banner();
+            $isUpdate = false;
+        };
+
+        // Save all the banners from the request
+        foreach ($request->except('_token') as $key => $requestImage) {
+            if ($isUpdate) {
+                $file = public_path('sites/banners/' . $banner[$key]);
+                if (File::exists($file)) File::delete($file);
+            }
+            $name = 'banner_' . uniqid() . '.' . $request->file($key)->extension();
+            $request->file($key)->move(public_path('sites/banners'), $name);
+            $banner[$key] = $name;
+        }
+
+        $banner->save();
+
+        return back()->withSuccess("Banners Data Saved Successfully");
     }
 }

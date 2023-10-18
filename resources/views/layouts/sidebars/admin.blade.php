@@ -1,18 +1,18 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('front.index') }}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Ronza</div>
+        <div class="sidebar-brand-text mx-3">{{ config('settings.site_name') }}</div>
     </a>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
+    <li class="nav-item {{ activeRoute('home') }}">
         <a class="nav-link" href="{{ route('home') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -38,13 +38,13 @@
     </li>
 
 
-    <li class="nav-item">
+    <li class="nav-item {{ activeRoute('site.banners') }}">
         <a class="nav-link" href="{{ route('site.banners') }}">
             <i class="fas fa-home"></i>
 
             <span>Site Banners</span></a>
     </li>
-    <li class="nav-item @yield('carousel')">
+    <li class="nav-item {{ activeRoute('site.carousel') }}">
         <a class="nav-link" href="{{ route('site.carousel') }}">
             <i class="fas fa-home"></i>
             <span>Main Carousel</span></a>
@@ -61,7 +61,7 @@
             <i class="fas fa-home"></i>
             <span>Site Settings</span></a>
     </li> --}}
-    <li class="nav-item @yield('settings')">
+    <li class="nav-item {{ activeRoute('site.settings') }}">
         <a class="nav-link" href="{{ route('site.settings') }}">
             <i class="fas fa-home"></i>
             <span>Site Settings</span></a>

@@ -1,4 +1,4 @@
-.img-table-sm{
+.img-table-sm {
     max-width: 70px;
     height: 40px;
     object-fit: cover;
@@ -6,25 +6,34 @@
     border-radius: 5px;
     box-shadow: 4px 4px 8px #ddd;
 }
-.input-group-text{
+
+.input-group-text {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
+
 /* input[type="checkbox"] {
     height: auto !important;
     padding: 0;
 } */
 
 
-.modal-title{
+.modal-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.title-truncate{
+.title-truncate {
     max-width: 150px;
     text-overflow: ellipsis;
-    white-space:  nowrap;
+    white-space: nowrap;
     overflow: hidden;
+}
+
+
+.img-thumbnail {
+    max-width: 200px;
+    height: 100px;
+    object-fit: cover
 }

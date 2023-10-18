@@ -31,14 +31,14 @@
               <!-- Slider Area End Here -->
               <!-- Begin Li Banner Area -->
               <div class="col-lg-4 col-md-4 text-center pt-xs-30">
-                  <div class="li-banner">
+                  <div class="li-banner top-banner">
                       <a href="#">
-                          <img src="{{ asset('frontend') }}/images/banner/1_1.jpg" alt="">
+                        <img src="{{ $banner->image_path('top_banner_1') }}" alt="Li's Static Banner">
                       </a>
                   </div>
-                  <div class="li-banner mt-15 mt-sm-30 mt-xs-30">
+                  <div class="li-banner top-banner mt-15 mt-sm-30 mt-xs-30">
                       <a href="#">
-                          <img src="{{ asset('frontend') }}/images/banner/1_2.jpg" alt="">
+                        <img src="{{ $banner->image_path('top_banner_2') }}" alt="Li's Static Banner">
                       </a>
                   </div>
               </div>

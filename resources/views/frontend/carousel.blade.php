@@ -2,14 +2,9 @@
 @section('css')
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 @endsection
-@section('carousel', 'active')
+@section('title', 'Product Slider')
 @section('content')
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <h1>Manage Main Carousel</h1>
-            </div>
-        </div>
         <div class="row mt-4">
             <div class="col-12">
                 <button class="addCarousel btn btn-primary">Add New</button>
@@ -20,7 +15,7 @@
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table datatable">
                                 <thead>
                                     <th>Image</th>
                                     <th>Heading</th>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Carousel;
 use App\Models\Category;
 use App\Models\Product;
@@ -17,7 +18,8 @@ class FrontendController extends Controller
         $data['new_arrivals'] = Product::where('created_at','>', Carbon::now()->subDays(2))->latest()->get();
         $data['discounted_products'] = Product::where('discount','>',0)->latest()->get();
         $data['carousels'] = Carousel::where('status',1)->latest()->get();
-        return view('frontend.index',compact('data'));
+        $banner = Banner::first();
+        return view('frontend.index',compact('data','banner'));
     }
 
     public function carousel()

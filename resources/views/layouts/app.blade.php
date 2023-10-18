@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{{ asset('dashboard-theme/css/custom.css') }}">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/css/jasny-bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('dashboard-theme/css/bootstrap-toggle.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dashboard-theme/css/datatables.min.css') }}">
 
     @yield('css')
     {{-- @notifyCss --}}
@@ -72,7 +73,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; {{ config('settings.site_name') }}</span>
                     </div>
                 </div>
             </footer>
@@ -121,10 +122,12 @@
 
     <script src="{{ asset('dashboard-theme') }}/js/sb-admin-2.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/js/jasny-bootstrap.min.js"></script>
+    <script src="{{ asset('dashboard-theme/js/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $(function() {
-                $('[data-toggle="tooltip"]').tooltip()
+                $('[data-toggle="tooltip"]').tooltip();
+                $('.datatable').DataTable();
             })
         });
     </script>

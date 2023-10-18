@@ -1,9 +1,9 @@
 @extends('layouts.app')
+@section('title', 'Manage Products')
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <h2>Manage Products</h2>
                 <a href="{{ route('products.create') }}" class="btn btn-success">Add Item</a>
             </div>
         </div>
@@ -13,7 +13,7 @@
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table datatable">
                                 <thead>
                                     <th></th>
                                     <th>Name</th>

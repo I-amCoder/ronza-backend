@@ -2,7 +2,7 @@
 @section('content')
     @include('frontend.partials.slider', ['carousels' => $data['carousels']])
 
-    @include('frontend.partials.new_arrival',['new_arrivals'=>$data['new_arrivals']])
+    @include('frontend.partials.new_arrival', ['new_arrivals' => $data['new_arrivals']])
     <!-- Product Area End Here -->
     <!-- Begin Li's Static Banner Area -->
     <div class="li-static-banner my-4">
@@ -12,7 +12,7 @@
                 <div class="col-lg-4 col-md-4 text-center">
                     <div class="single-banner">
                         <a href="#">
-                            <img src="{{ asset('frontend') }}/images/banner/1_3.jpg" alt="Li's Static Banner">
+                            <img src="{{ $banner->image_path('middle_banner_1') }}" alt="Li's Static Banner">
                         </a>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                 <div class="col-lg-4 col-md-4 text-center pt-xs-30">
                     <div class="single-banner">
                         <a href="#">
-                            <img src="{{ asset('frontend') }}/images/banner/1_4.jpg" alt="Li's Static Banner">
+                            <img src="{{ $banner->image_path('middle_banner_2') }}" alt="Li's Static Banner">
                         </a>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                 <div class="col-lg-4 col-md-4 text-center pt-xs-30">
                     <div class="single-banner">
                         <a href="#">
-                            <img src="{{ asset('frontend') }}/images/banner/1_5.jpg" alt="Li's Static Banner">
+                            <img src="{{ $banner->image_path('middle_banner_3') }}" alt="Li's Static Banner">
                         </a>
                     </div>
                 </div>
@@ -50,10 +50,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <!-- Begin Li's Static Home Image Area -->
-                    <div class="li-static-home-image"></div>
+                    <div class="li-static-home-image"
+                        style="background-image: url({{ $banner->image_path('bottom_banner_1') }})"></div>
                     <!-- Li's Static Home Image Area End Here -->
                     <!-- Begin Li's Static Home Content Area -->
-                    <div class="li-static-home-content">
+                    {{-- <div class="li-static-home-content">
                         <p>Sale Offer<span>-20% Off</span>This Week</p>
                         <h2>Featured Product</h2>
                         <h2>Meito Accessories 2018</h2>
@@ -64,7 +65,7 @@
                         <div class="default-btn">
                             <a href="shop-left-sidebar.html" class="links">Shopping Now</a>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- Li's Static Home Content Area End Here -->
                 </div>
             </div>
@@ -73,7 +74,9 @@
     <!-- Li's Static Home Area End Here -->
 
     @include('frontend.partials.featured_products', ['products' => $data['featured_products']])
-    @include('frontend.partials.discounted_products',['discounted_products'=>$data['discounted_products']])
+    @include('frontend.partials.discounted_products', [
+        'discounted_products' => $data['discounted_products'],
+    ])
 
 
     <!-- Li's Trendding Products Area End Here -->
